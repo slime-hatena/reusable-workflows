@@ -14,6 +14,9 @@ jobs:
         run: |
           if [ ! -f "${GITHUB_WORKSPACE}/.github/labels.json" ]; then
           curl -sSL https://raw.githubusercontent.com/slime-hatena/reusable-workflows/refs/heads/main/.github/labels.json -o "${GITHUB_WORKSPACE}/.github/labels.json"
+          echo "Downloaded labels.json."
+          else
+          echo "labels.json already exists."
           fi
       - name: Cat labels.json
         run: cat "${GITHUB_WORKSPACE}/.github/labels.json"
