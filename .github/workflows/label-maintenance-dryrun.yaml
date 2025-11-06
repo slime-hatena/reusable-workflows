@@ -1,4 +1,4 @@
-name: '[Reusable] Label maintenance'
+name: '[Reusable] Label maintenance (Dry Run)'
 on:
   workflow_call:
 
@@ -24,4 +24,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          github-label-setup --token ${GITHUB_TOKEN} --labels ${GITHUB_WORKSPACE}/.github/labels.json
+          github-label-setup --token ${GITHUB_TOKEN} --labels ${GITHUB_WORKSPACE}/.github/labels.json --dry-run
