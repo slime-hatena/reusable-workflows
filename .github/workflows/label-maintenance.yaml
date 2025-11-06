@@ -1,9 +1,6 @@
 name: '[Reusable] Label maintenance'
 on:
   workflow_call: # 呼び出し可能にする
-    secrets:
-      GITHUB_TOKEN:
-        required: true
 
 jobs:
   label_maintenance:
