@@ -19,7 +19,7 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/slime-hatena/reusable-workflows/refs/heads/main/.github/labels.json -o "${GITHUB_WORKSPACE}/.github/labels.json"
           fi
       - name: Cat labels.json
-        cat "${GITHUB_WORKSPACE}/.github/labels.json"
+        run: cat "${GITHUB_WORKSPACE}/.github/labels.json"
       - name: Run @azu/github-label-setup
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
