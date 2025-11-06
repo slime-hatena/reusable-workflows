@@ -1,0 +1,27 @@
+name: '[Reusable] Label maintenance'
+on:
+  workflow_call: # 呼び出し可能にする
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
+jobs:
+  label_maintenance:
+    name: Label maintenance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Install @azu/github-label-setup
+        run: npm install --global @azu/github-label-setup
+      - name: If label.json does not exist, download it
+        run: |
+          if [ ! -f "${GITHUB_WORKSPACE}/.github/labels.json" ]; then
+          curl -sSL https://raw.githubusercontent.com/slime-hatena/reusable-workflows/refs/heads/main/.github/labels.json -o "${GITHUB_WORKSPACE}/.github/labels.json"
+          fi
+      - name: Cat labels.json
+        cat "${GITHUB_WORKSPACE}/.github/labels.json"
+      - name: Run @azu/github-label-setup
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          github-label-setup --token ${GITHUB_TOKEN} --labels ${GITHUB_WORKSPACE}/.github/labels.json
