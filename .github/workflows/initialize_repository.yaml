@@ -1,0 +1,52 @@
+name: '[Reusable] Initialize repository'
+on:
+  workflow_call:
+
+jobs:
+  check_initial_commit:
+    if: contains(github.event.head_commit.message, 'Initial commit')
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Check Initial Commit'
+        run: |
+          echo "This is the initial commit. Proceeding with repository initialization."
+  label_maintenance:
+    needs: [check_initial_commit]
+    uses: slime-hatena/reusable-workflows/.github/workflows/label_maintenance.yaml@main
+    with:
+      dry_run: false
+  create_main_branch:
+    needs: [check_initial_commit]
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_branch.yaml@main
+    with:
+      branch: 'main'
+  create_develop_branch:
+    needs: [check_initial_commit]
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_branch.yaml@main
+    with:
+      branch: 'develop'
+  create_empty_commit:
+    needs: [create_develop_branch]
+    if: needs.create_develop_branch.result == 'true'
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_empty_commit.yaml@main
+    with:
+      branch: 'develop'
+      commit_message: |
+        Create Pull Request
+
+        To create a new pull request, some changes are needed, so a commit is created.
+  create_pull_request:
+    needs: [create_main_branch, create_empty_commit]
+    if: needs.create_empty_commit.result == 'true'
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_pr.yaml@main
+    with:
+      base: 'main'
+      head: 'develop'
+      title: 'Release'
+      body: |
+        This is a pull request for the next release.
+        If you approve it, the release will be created.
+        Please merge your changes into this branch.
+
+        **Do not attach anything other than a release tag to this request.
+        Unexpected versions and content may be released.**

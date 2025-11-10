@@ -1,0 +1,36 @@
+name: Create Branch If Not Exists
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch name to create'
+        required: true
+        type: string
+
+jobs:
+  create_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Fetch all remote branches
+        run: git fetch --all
+
+      - name: Check if branch exists
+        id: check_branch
+        run: |
+          if git show-ref --verify --quiet refs/heads/${{ github.event.inputs.branch }}; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create branch if not exists
+        if: steps.check_branch.outputs.exists == 'false'
+        run: |
+          git branch ${{ github.event.inputs.branch }}
+          git push origin ${{ github.event.inputs.branch }}

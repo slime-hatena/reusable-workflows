@@ -1,0 +1,33 @@
+name: Create Pull Request
+
+on:
+  workflow_call:
+    inputs:
+      base:
+        required: true
+        type: string
+      head:
+        required: true
+        type: string
+      title:
+        required: true
+        type: string
+      body:
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  create_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --base "${{ inputs.base }}" \
+            --head "${{ inputs.head }}" \
+            --title "${{ inputs.title }}" \
+            --body "${{ inputs.body }}"
