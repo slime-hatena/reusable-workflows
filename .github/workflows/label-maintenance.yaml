@@ -1,6 +1,11 @@
 name: '[Reusable] Label maintenance'
 on:
   workflow_call:
+    inputs:
+      dry_run:
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   label_maintenance:
@@ -13,10 +18,10 @@ jobs:
       - name: If label.json does not exist, download it
         run: |
           if [ ! -f "${GITHUB_WORKSPACE}/.github/labels.json" ]; then
-          curl -sSL https://raw.githubusercontent.com/slime-hatena/reusable-workflows/refs/heads/main/.github/labels.json -o "${GITHUB_WORKSPACE}/.github/labels.json"
-          echo "Downloaded labels.json."
+            curl -sSL https://raw.githubusercontent.com/slime-hatena/reusable-workflows/refs/heads/main/.github/labels.json -o "${GITHUB_WORKSPACE}/.github/labels.json"
+            echo "Downloaded labels.json."
           else
-          echo "labels.json already exists."
+            echo "labels.json already exists."
           fi
       - name: Cat labels.json
         run: cat "${GITHUB_WORKSPACE}/.github/labels.json"
@@ -24,4 +29,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          github-label-setup --token ${GITHUB_TOKEN} --labels ${GITHUB_WORKSPACE}/.github/labels.json
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            github-label-setup --token ${GITHUB_TOKEN} --labels ${GITHUB_WORKSPACE}/.github/labels.json --dry-run
+          else
+            github-label-setup --token ${GITHUB_TOKEN} --labels ${GITHUB_WORKSPACE}/.github/labels.json
+          fi
