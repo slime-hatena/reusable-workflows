@@ -1,6 +1,11 @@
 name: '[Reusable/internal] Close PR'
 on:
   workflow_call:
+    inputs:
+      body:
+        required: false
+        type: string
+        default: "This PR has been closed automatically."
 
 jobs:
   close-pr:
@@ -13,8 +18,10 @@ jobs:
             exit 1
           fi
       - uses: actions/checkout@v5
+      - name: Create comment file
+        run: echo "${{ inputs.body }}" > comment.md
       - name: Close PR
         run: |
-          gh pr close ${{ github.event.number }} --comment "This PR has been closed automatically."
+          gh pr close ${{ github.event.number }} --body-file comment.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -9,9 +9,9 @@ jobs:
     steps:
       - run: 'echo ${{ github.event.pull_request.title }}'
 
-  pr_comment:
+  close_pr:
     needs: [check_pr_title]
-    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_pr_comment.yaml@main
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_close_pr.yaml@main
     with:
       body: |
         ⚠️ **Merge Guard Activated** ⚠️
@@ -22,7 +22,3 @@ jobs:
         If you absolutely need to merge due to CI settings or an emergency, please start the title with \`[release skip]\`.
 
         Thank you for your understanding and cooperation! 🙏
-
-  close_pr:
-    needs: [pr_comment]
-    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_close_pr.yaml@main
