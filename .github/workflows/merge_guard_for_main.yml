@@ -11,7 +11,7 @@ jobs:
 
   close_pr:
     needs: [check_pr_title]
-    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_close_pr.yaml@main
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_close_pr.yml@main
     with:
       body: |
         ⚠️ **Merge Guard Activated** ⚠️

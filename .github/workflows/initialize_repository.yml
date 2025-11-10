@@ -12,23 +12,23 @@ jobs:
           echo "This is the initial commit. Proceeding with repository initialization."
   label_maintenance:
     needs: [check_initial_commit]
-    uses: slime-hatena/reusable-workflows/.github/workflows/label_maintenance.yaml@main
+    uses: slime-hatena/reusable-workflows/.github/workflows/label_maintenance.yml@main
     with:
       dry_run: false
   create_main_branch:
     needs: [check_initial_commit]
-    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_branch.yaml@main
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_branch.yml@main
     with:
       branch: 'main'
   create_develop_branch:
     needs: [check_initial_commit]
-    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_branch.yaml@main
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_branch.yml@main
     with:
       branch: 'develop'
   create_empty_commit:
     needs: [create_develop_branch]
     if: needs.create_develop_branch.result == 'true'
-    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_empty_commit.yaml@main
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_empty_commit.yml@main
     with:
       branch: 'develop'
       commit_message: |
@@ -38,7 +38,7 @@ jobs:
   create_pull_request:
     needs: [create_main_branch, create_empty_commit]
     if: needs.create_empty_commit.result == 'true'
-    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_pr.yaml@main
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_pr.yml@main
     with:
       base: 'main'
       head: 'develop'
