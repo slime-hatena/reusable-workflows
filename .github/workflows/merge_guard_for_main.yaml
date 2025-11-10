@@ -4,7 +4,7 @@ on:
 
 jobs:
   check_pr_title:
-    if: (!contains(github.event.pull_request.title, '[release skip]')) && github.head_ref != 'develop' && github.head_ref != 'hotfix'
+    if: (!contains(github.event.pull_request.title, '[release skip]')) && github.head_ref != 'develop' && github.head_ref != 'hotfix' && github.event.pull_request.merged == false
     runs-on: ubuntu-latest
     steps:
       - run: 'echo ${{ github.event.pull_request.title }}'
@@ -22,3 +22,7 @@ jobs:
         If you absolutely need to merge due to CI settings or an emergency, please start the title with \`[release skip]\`.
 
         Thank you for your understanding and cooperation! 🙏
+
+  close_pr:
+    needs: [pr_comment]
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_close_pr.yaml@main
