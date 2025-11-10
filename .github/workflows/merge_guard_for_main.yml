@@ -1,4 +1,4 @@
-name: '[Reusable] Merge guard for main v3'
+name: '[Reusable] Merge guard for main'
 on:
   workflow_call:
 

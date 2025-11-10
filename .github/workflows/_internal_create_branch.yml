@@ -1,7 +1,7 @@
-name: Create Branch If Not Exists
+name: "[Reusable/internal] Create Branch If Not Exists"
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       branch:
         description: 'Branch name to create'

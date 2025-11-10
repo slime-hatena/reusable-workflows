@@ -1,7 +1,7 @@
-name: Create Empty Commit
+name: "[Reusable/internal] Create Empty Commit"
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       branch_name:
         description: 'Branch name'
