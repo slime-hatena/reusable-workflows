@@ -1,0 +1,22 @@
+name: '[Reusable] Merge guard for main'
+on:
+  workflow_call:
+
+jobs:
+  merge_guard:
+    if: (!contains(github.event.pull_request.title, '[release skip]')) && github.head_ref != 'develop' && github.head_ref != 'hotfix'
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo ${{ github.event.pull_request.title }}'
+      - uses: slime-hatena/reusable-workflows/.github/workflows/internal/create-pr-comment.yaml@main
+        with:
+          body: |
+            ⚠️ **Merge Guard Activated** ⚠️
+
+            It looks like you're trying to merge a branch named `${{ github.head_ref }}` into `main`.
+            To maintain a clean and stable `main` branch, please ensure that all changes are merged into `develop` or `hotfix` branches first. Once those branches are up-to-date and tested, you can then merge them into `main`.
+
+            If you absolutely need to merge due to CI settings or an emergency, please start the title with `[release skip]`.
+
+            Thank you for your understanding and cooperation! 🙏
+

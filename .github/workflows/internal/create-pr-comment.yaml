@@ -1,0 +1,21 @@
+name: 'Create PR comment'
+on:
+  workflow_call:
+    inputs:
+      body:
+        required: true
+        type: string
+
+  - name: Is PR event
+    run: |
+      if [ "${{ github.event_name }}" != "pull_request" ]; then
+        echo "This workflow can only be run on pull_request events."
+        exit 1
+      fi
+  - name: Create comment file
+    run: echo "${{ inputs.body }}" > comment.md
+  - name: Create PR comment
+    run: |
+      gh pr comment ${{ github.event.number }} --body-file comment.md
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
