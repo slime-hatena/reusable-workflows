@@ -12,8 +12,8 @@ jobs:
     steps:
       - name: Is PR event
         run: |
-          if [ "${{ github.event_name }}" != "pull_request" ]; then
-            echo "This workflow can only be run on pull_request events."
+          if [ "${{ github.event_name }}" != "pull_request" ] && [ "${{ github.event_name }}" != "pull_request_target" ]; then
+            echo "This workflow can only be run on pull_request or pull_request_target events."
             exit 1
           fi
       - name: Create comment file
