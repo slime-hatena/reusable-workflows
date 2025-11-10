@@ -12,6 +12,7 @@ jobs:
             echo "This workflow can only be run on pull_request or pull_request_target events."
             exit 1
           fi
+      - uses: actions/checkout@v5
       - name: Close PR
         run: |
           gh pr close ${{ github.event.number }} --comment "This PR has been closed automatically."
