@@ -3,7 +3,7 @@ name: "[Reusable/internal] Create Empty Commit"
 on:
   workflow_call:
     inputs:
-      branch_name:
+      branch:
         description: 'Branch name'
         required: true
         type: string
