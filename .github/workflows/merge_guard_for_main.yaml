@@ -11,7 +11,7 @@ jobs:
 
   pr_comment:
     needs: [check_pr_title]
-    uses: slime-hatena/reusable-workflows/.github/workflows/internal/create-pr-comment.yaml@main
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_pr_comment.yaml@main
     with:
       body: |
         ⚠️ **Merge Guard Activated** ⚠️
