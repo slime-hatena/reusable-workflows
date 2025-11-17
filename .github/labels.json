@@ -72,11 +72,6 @@
         "description": "Lacks enough info to make progress"
     },
     {
-        "name": "Type: Breaking Change",
-        "color": "b60205",
-        "description": "Includes breaking changes"
-    },
-    {
         "name": "Type: Bug",
         "color": "ee0701",
         "description": "Bug or Bug fixes",
@@ -125,5 +120,16 @@
         "name": "Release",
         "color": "137cb8",
         "description": "Pull Requests for release"
+    },
+    {
+        "name": "Versioning: Major",
+        "color": "b669ff",
+        "description": "Includes breaking changes",
+        "aliases": ["Type: Breaking Change"]
+    },
+    {
+        "name": "Versioning: Minor",
+        "color": "c593f5",
+        "description": "Includes new features, but no breaking changes"
     }
 ]
