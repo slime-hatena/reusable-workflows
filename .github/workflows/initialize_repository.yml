@@ -49,9 +49,9 @@ jobs:
       body: |
         This Pull Request is for a release. If you approve it, a release will be created.
 
-        **Please do not add any tags other than `Release`.**  
+        **Please do not add any tags other than \`Release\`.**  
         Adding other tags may result in an unintended release or incorrect version.
 
-        Next version: `${{ needs.calc-version.outputs.version }}`
+        Next version: \`${{ needs.calc-version.outputs.version }}\`
 
         ${{ needs.get-pr-list.outputs.pr_list }}
