@@ -2,12 +2,12 @@ name: '[Reusable] Update release Pull Request'
 on:
   workflow_call:
 jobs:
-  calc-version:
+  calc_version:
     uses: ./.github/workflows/calc_version.yml
-  get-pr-list:
+  get_pr_list:
     uses: ./.github/workflows/_internal_get_pr_list.yml
-  update-release-pr-comment:
-    needs: [calc-version, get-pr-list]
+  update_release_pr_comment:
+    needs: [calc_version, get_pr_list]
     uses: ./.github/workflows/_internal_create_or_update_pr_comment.yml
     with:
       body: |
