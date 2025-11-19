@@ -1,6 +1,10 @@
 name: '[Reusable/internal] Get PR List'
 on:
   workflow_call:
+    outputs:
+      pr_list:
+        description: 'Markdown table of PR list since latest tag'
+        value: ${{ jobs.get-pr-list.outputs.list }}
 jobs:
   get-pr-list:
     runs-on: ubuntu-latest
@@ -33,3 +37,5 @@ jobs:
           echo "pr_list<<EOF" >> $GITHUB_OUTPUT
           echo -e "$pr_list" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+      - run: |
+          echo "PR List:\n" ${{ steps.get-pr-list.outputs.pr_list }}
