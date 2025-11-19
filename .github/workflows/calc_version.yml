@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.set-version.outputs.version }}
+      current_version: ${{ steps.get-latest-tag.outputs.current_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
