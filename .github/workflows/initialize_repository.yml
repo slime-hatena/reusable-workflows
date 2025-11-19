@@ -35,18 +35,25 @@ jobs:
         Create Pull Request
 
         To create a new pull request, some changes are needed, so a commit is created.
-  create_pull_request:
+  calc-version:
+    uses: ./.github/workflows/calc_version.yml
     needs: [create_main_branch, create_empty_commit]
-    if: needs.create_empty_commit.result == 'true'
+  get-pr-list:
+    needs: [create_main_branch, create_empty_commit]
+    uses: ./.github/workflows/_internal_get_pr_list.yml
+  create_pull_request:
+    needs: [calc-version, get-pr-list]
     uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_pr.yml@main
     with:
       base: 'main'
       head: 'develop'
-      title: 'Release'
+      title: 'Next Release'
       body: |
-        This is a pull request for the next release.
-        If you approve it, the release will be created.
-        Please merge your changes into this branch.
+        This Pull Request is for a release. If you approve it, a release will be created.
 
-        **Do not attach anything other than a release tag to this request.
-        Unexpected versions and content may be released.**
+        **Please do not add any tags other than `Release`.**  
+        Adding other tags may result in an unintended release or incorrect version.
+
+        Next version: `${{ needs.calc-version.outputs.version }}`
+
+        ${{ needs.get-pr-list.outputs.pr_list }}
