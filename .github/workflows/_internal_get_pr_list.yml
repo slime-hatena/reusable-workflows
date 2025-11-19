@@ -1,0 +1,39 @@
+name: Get PR List
+on:
+  workflow_call:
+
+jobs:
+  calc-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Get latest tag
+        id: get-latest-tag
+        run: |
+          git fetch --tags
+          tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          echo "tag=$tag" >> $GITHUB_OUTPUT
+
+      - name: Get commit logs from latest tag to HEAD
+        id: get-commits
+        run: |
+          echo "prs=$(git log ${{ steps.get-latest-tag.outputs.tag }}..HEAD --pretty=format:'%s' | grep -oE 'Merge pull request #[0-9]+' | grep -oE '[0-9]+')" >> $GITHUB_OUTPUT
+
+      - name: Get PR info list
+        id: get-pr-list
+        run: |
+          pr_numbers="${{ steps.get-commits.outputs.prs }}"
+          pr_list="| Release Ready | Number | Title |\n|---|---|---|\n"
+          for pr in $(echo "$pr_numbers"); do
+            info=$(gh pr view $pr --json number,title --jq '"| [ ] | #" + (.number|tostring) + " | " + .title + " |"' || echo "| [ ] | #$pr | Failed to fetch |")
+            pr_list="${pr_list}${info}\n"
+          done
+          # table footer
+          #pr_list="${pr_list}|---|---|---|"
+          echo "pr_list<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$pr_list" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
