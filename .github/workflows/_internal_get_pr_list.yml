@@ -5,7 +5,7 @@ jobs:
   calc-version:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.set-version.outputs.version }}
+      list: ${{ steps.get-pr-list.outputs.pr_list }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -29,7 +29,7 @@ jobs:
             pr_list="${pr_list}${info}\n"
           done
           # table footer
-          #pr_list="${pr_list}|---|---|---|"
+          #list="${pr_list}|---|---|---|"
           echo "pr_list<<EOF" >> $GITHUB_OUTPUT
           echo -e "$pr_list" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
