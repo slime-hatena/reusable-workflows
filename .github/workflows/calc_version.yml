@@ -59,6 +59,8 @@ jobs:
             labels="$labels $pr_labels"
           done
           echo "labels=$labels" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           echo "Collected PR labels: ${{ steps.get-labels.outputs.labels }}"
       - name: Decide bump type
