@@ -42,7 +42,7 @@ jobs:
     uses: ./.github/workflows/calc_version.yml
     needs: [label_maintenance, set_default_branch]
   get-pr-list:
-    needs: [label_maintenance, create_main_branch, set_default_branch]
+    needs: [label_maintenance, set_default_branch]
     uses: ./.github/workflows/_internal_get_pr_list.yml
   create_pull_request:
     needs: [calc-version, get-pr-list]
