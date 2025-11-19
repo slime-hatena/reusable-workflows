@@ -2,6 +2,9 @@ name: Calc Version
 on:
   workflow_call:
     inputs:
+      branch:
+        type: string
+        default: 'develop'
       major_label:
         type: string
         default: 'Versioning: Major'
@@ -17,6 +20,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
 
       - name: Get latest tag
         id: get-latest-tag
