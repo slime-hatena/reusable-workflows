@@ -1,3 +1,4 @@
+# actionsではこれを実行するための権限が付与できないらしい お蔵入り
 name: '[Reusable/internal] Set Default Branch'
 on:
   workflow_call:
@@ -5,8 +6,6 @@ on:
       branch:
         required: true
         type: string
-permissions:
-  contents: write
 jobs:
   set-default-branch:
     runs-on: ubuntu-latest
