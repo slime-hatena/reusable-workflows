@@ -1,0 +1,21 @@
+name: '[Reusable] Update release Pull Request'
+on:
+  workflow_call:
+jobs:
+  calc-version:
+    uses: ./.github/workflows/calc_version.yml
+  get-pr-list:
+    uses: ./.github/workflows/_internal_get_pr_list.yml
+  update-release-pr-comment:
+    needs: [calc-version, get-pr-list]
+    uses: ./.github/workflows/_internal_create_or_update_pr_comment.yml
+    with:
+      body: |
+        This Pull Request is for a release. If you approve it, a release will be created.
+
+        **Please do not add any tags other than `Release`.**  
+        Adding other tags may result in an unintended release or incorrect version.
+
+        Next version: `${{ needs.calc-version.outputs.version }}`
+
+        ${{ needs.get-pr-list.outputs.pr_list }}
