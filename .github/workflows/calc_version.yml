@@ -47,7 +47,7 @@ jobs:
         id: get-commits
         run: |
           echo "prs=$(git log ${{ steps.get-latest-tag.outputs.tag }}..HEAD --pretty=format:'%s' | grep -oE 'Merge pull request #[0-9]+' | grep -oE '[0-9]+')" >> $GITHUB_OUTPUT
-        run: |
+      - run: |
           echo "Collected PR numbers: ${{ steps.get-commits.outputs.prs }}"
       - name: Get PR labels
         id: get-labels
