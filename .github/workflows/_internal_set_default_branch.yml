@@ -5,6 +5,8 @@ on:
       branch:
         required: true
         type: string
+permissions:
+  contents: write
 jobs:
   set-default-branch:
     runs-on: ubuntu-latest
