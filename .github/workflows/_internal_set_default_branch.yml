@@ -1,0 +1,14 @@
+name: '[Reusable/internal] Set Default Branch'
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+jobs:
+  set-default-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set default branch
+        run: |
+          gh repo edit --default-branch ${{ inputs.branch }}
