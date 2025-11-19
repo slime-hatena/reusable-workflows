@@ -19,6 +19,8 @@ jobs:
           git fetch --tags
           tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           echo "tag=$tag" >> $GITHUB_OUTPUT
+      - run: |
+          echo "Latest tag fetched: ${{ steps.get-latest-tag.outputs.tag }}"
       - name: Get commit logs from latest tag to HEAD
         id: get-commits
         run: |
