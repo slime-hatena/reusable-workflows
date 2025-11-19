@@ -33,14 +33,12 @@ jobs:
           pr_numbers="${{ steps.get-commits.outputs.prs }}"
           pr_list=""
           for pr in $(echo "$pr_numbers"); do
-            info=$(gh pr view $pr --json number,title --jq '"- [ ] #" + (.number|tostring) + " " + .title + " "' || echo "- [ ] #$pr Failed to fetch |")
+            info=echo "- [ ] #$pr"
             pr_list="${pr_list}${info}\n"
           done
           echo "pr_list<<EOF" >> $GITHUB_OUTPUT
           echo -e "$pr_list" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Output PR list
         run: |
           echo "${{ steps.get-pr-list.outputs.pr_list }}"
