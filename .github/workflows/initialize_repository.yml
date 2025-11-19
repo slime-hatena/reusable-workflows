@@ -46,6 +46,7 @@ jobs:
       base: 'main'
       head: 'develop'
       title: 'Next Release'
+      tag: 'Release'
       body: |
         This Pull Request is for a release. If you approve it, a release will be created.
 
