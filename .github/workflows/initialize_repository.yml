@@ -33,14 +33,14 @@ jobs:
         Create Pull Request
 
         To create a new pull request, some changes are needed, so a commit is created.
-  calc-version:
-    uses: ./.github/workflows/calc_version.yml
+  calc_version:
     needs: [label_maintenance, create_main_branch, create_empty_commit_to_develop]
-  get-pr-list:
+    uses: ./.github/workflows/calc_version.yml
+  get_pr_list:
     needs: [label_maintenance, create_main_branch, create_empty_commit_to_develop]
     uses: ./.github/workflows/_internal_get_pr_list.yml
   create_pull_request:
-    needs: [calc-version, get-pr-list]
+    needs: [calc_version, get_pr_list]
     uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_pr.yml@main
     with:
       base: 'main'
@@ -53,6 +53,6 @@ jobs:
         **Please do not add any tags other than \`Release\`.**  
         Adding other tags may result in an unintended release or incorrect version.
 
-        Next version: \`${{ needs.calc-version.outputs.version }}\`
+        Next version: \`${{ needs.calc_version.outputs.version }}\`
 
-        ${{ needs.get-pr-list.outputs.pr_list }}
+        ${{ needs.get_pr_list.outputs.pr_list }}
