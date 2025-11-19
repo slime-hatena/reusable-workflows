@@ -19,11 +19,16 @@ jobs:
       - name: Check if branch exists
         id: check_branch
         run: |
-          if git show-ref --verify --quiet refs/heads/${{ inputs.branch }}; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-          fi
+            if git show-ref --verify --quiet refs/heads/${{ inputs.branch }}; then
+              echo ${{ inputs.branch }} is exists locally.
+              echo "exists=true" >> $GITHUB_OUTPUT
+            elif git ls-remote --exit-code --heads origin "${{ inputs.branch }}" > /dev/null; then
+              echo ${{ inputs.branch }} is exists remotely.
+              echo "exists=true" >> $GITHUB_OUTPUT
+            else
+              echo ${{ inputs.branch }} does not exist.
+              echo "exists=false" >> $GITHUB_OUTPUT
+            fi
       - name: Create branch if not exists
         if: steps.check_branch.outputs.exists == 'false'
         run: |
