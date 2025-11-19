@@ -26,13 +26,16 @@ jobs:
       - name: Get commit logs from latest tag to HEAD
         id: get-commits
         run: |
-          echo "prs=$(git log ${{ steps.get-latest-tag.outputs.tag }}..HEAD --pretty=format:'%s' | grep -oE 'Merge pull request #[0-9]+' | grep -oE '[0-9]+')" >> $GITHUB_OUTPUT
+          prs=$(git log ${{ steps.get-latest-tag.outputs.tag }}..HEAD --pretty=format:'%s' | grep -oE 'Merge pull request #[0-9]+' | grep -oE '[0-9]+')
+          prs_csv=$(echo "$prs" | paste -sd "," -)
+          echo "prs=$prs_csv" >> $GITHUB_OUTPUT
       - name: Get PR info list
         id: get-pr-list
         run: |
           pr_numbers="${{ steps.get-commits.outputs.prs }}"
           pr_list=""
-          for pr in $(echo "$pr_numbers"); do
+          IFS=',' read -ra pr_array <<< "$pr_numbers"
+          for pr in "${pr_array[@]}"; do
             info="- [ ] #${pr}"
             pr_list="${pr_list}${info}\n"
           done
