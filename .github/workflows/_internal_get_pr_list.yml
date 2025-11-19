@@ -31,13 +31,11 @@ jobs:
         id: get-pr-list
         run: |
           pr_numbers="${{ steps.get-commits.outputs.prs }}"
-          pr_list="| Release Ready | Number | Title |\n|---|---|---|\n"
+          pr_list=""
           for pr in $(echo "$pr_numbers"); do
-            info=$(gh pr view $pr --json number,title --jq '"| [ ] | #" + (.number|tostring) + " | " + .title + " |"' || echo "| [ ] | #$pr | Failed to fetch |")
+            info=$(gh pr view $pr --json number,title --jq '"- [ ] #" + (.number|tostring) + " " + .title + " "' || echo "- [ ] #$pr Failed to fetch |")
             pr_list="${pr_list}${info}\n"
           done
-          # table footer
-          #list="${pr_list}|---|---|---|"
           echo "pr_list<<EOF" >> $GITHUB_OUTPUT
           echo -e "$pr_list" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
