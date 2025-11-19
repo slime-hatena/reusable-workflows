@@ -15,6 +15,9 @@ on:
       version:
         description: 'Calculated next version'
         value: ${{ jobs.calc-version.outputs.version }}
+      current_version:
+        description: 'Current version from latest tag'
+        value: ${{ jobs.calc-version.outputs.current_version }}
 jobs:
   calc-version:
     runs-on: ubuntu-latest
@@ -32,6 +35,11 @@ jobs:
           git fetch --tags
           tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           echo "tag=$tag" >> $GITHUB_OUTPUT
+          if [ -z "$tag" ]; then
+            echo "current_version=0.0.0" >> $GITHUB_OUTPUT
+          else
+            echo "current_version=$tag" >> $GITHUB_OUTPUT
+          fi
       - run: |
           echo "Latest tag fetched: ${{ steps.get-latest-tag.outputs.tag }}"
       - name: Get commit logs from latest tag to HEAD

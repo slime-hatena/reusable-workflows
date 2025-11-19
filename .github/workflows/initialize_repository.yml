@@ -53,6 +53,6 @@ jobs:
         **Please do not add any tags other than \`Release\`.**  
         Adding other tags may result in an unintended release or incorrect version.
 
-        Next version: \`${{ needs.calc_version.outputs.version }}\`
+        Version: \`${{ needs.calc_version.outputs.current_version }}\` → \`${{ needs.calc_version.outputs.version }}\`  
 
         ${{ needs.get_pr_list.outputs.pr_list }}
