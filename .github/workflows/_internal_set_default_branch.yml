@@ -12,3 +12,5 @@ jobs:
       - name: Set default branch
         run: |
           gh repo edit --default-branch ${{ inputs.branch }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
