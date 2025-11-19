@@ -11,6 +11,10 @@ on:
       minor_label:
         type: string
         default: 'Versioning: Minor'
+    outputs:
+      version:
+        description: 'Calculated next version'
+        value: ${{ jobs.calc-version.outputs.version }}
 jobs:
   calc-version:
     runs-on: ubuntu-latest
