@@ -1,5 +1,4 @@
 name: "[Reusable/internal] Create Empty Commit"
-
 on:
   workflow_call:
     inputs:
@@ -11,7 +10,6 @@ on:
         description: 'Commit message'
         required: true
         type: string
-
 jobs:
   create-empty-commit:
     runs-on: ubuntu-latest

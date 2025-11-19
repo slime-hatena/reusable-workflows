@@ -1,4 +1,4 @@
-name: Calc Version
+name: '[Reusable] Calc Version'
 on:
   workflow_call:
     inputs:
@@ -11,7 +11,6 @@ on:
       minor_label:
         type: string
         default: 'Versioning: Minor'
-
 jobs:
   calc-version:
     runs-on: ubuntu-latest
@@ -22,19 +21,16 @@ jobs:
         uses: actions/checkout@v5
         with:
           ref: ${{ inputs.branch }}
-
       - name: Get latest tag
         id: get-latest-tag
         run: |
           git fetch --tags
           tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           echo "tag=$tag" >> $GITHUB_OUTPUT
-
       - name: Get commit logs from latest tag to HEAD
         id: get-commits
         run: |
           echo "prs=$(git log ${{ steps.get-latest-tag.outputs.tag }}..HEAD --pretty=format:'%s' | grep -oE 'Merge pull request #[0-9]+' | grep -oE '[0-9]+')" >> $GITHUB_OUTPUT
-
       - name: Get PR labels
         id: get-labels
         run: |
@@ -44,7 +40,6 @@ jobs:
             labels="$labels $pr_labels"
           done
           echo "labels=$labels" >> $GITHUB_OUTPUT
-
       - name: Decide bump type
         id: decide-bump
         run: |
@@ -57,7 +52,6 @@ jobs:
             bump="minor"
           fi
           echo "bump=$bump" >> $GITHUB_OUTPUT
-
       - name: Calculate next version
         id: set-version
         run: |

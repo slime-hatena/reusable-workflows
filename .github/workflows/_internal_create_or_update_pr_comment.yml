@@ -1,11 +1,10 @@
-name: '[Reusable/internal] Create or Update PR comment'
+name: '[Reusable/internal] Create or PR comment'
 on:
   workflow_call:
     inputs:
       body:
         required: true
         type: string
-
 jobs:
   update-or-create-pr-comment:
     runs-on: ubuntu-latest

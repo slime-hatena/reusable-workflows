@@ -1,5 +1,4 @@
-name: Create Pull Request
-
+name: '[Reusable/internal] Create Pull Request'
 on:
   workflow_call:
     inputs:
@@ -16,7 +15,6 @@ on:
         required: false
         type: string
         default: ''
-
 jobs:
   create_pr:
     runs-on: ubuntu-latest

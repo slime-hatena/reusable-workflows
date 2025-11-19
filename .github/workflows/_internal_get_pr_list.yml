@@ -1,7 +1,6 @@
-name: Get PR List
+name: '[Reusable/internal] Get PR List'
 on:
   workflow_call:
-
 jobs:
   calc-version:
     runs-on: ubuntu-latest
@@ -10,19 +9,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-
       - name: Get latest tag
         id: get-latest-tag
         run: |
           git fetch --tags
           tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           echo "tag=$tag" >> $GITHUB_OUTPUT
-
       - name: Get commit logs from latest tag to HEAD
         id: get-commits
         run: |
           echo "prs=$(git log ${{ steps.get-latest-tag.outputs.tag }}..HEAD --pretty=format:'%s' | grep -oE 'Merge pull request #[0-9]+' | grep -oE '[0-9]+')" >> $GITHUB_OUTPUT
-
       - name: Get PR info list
         id: get-pr-list
         run: |

@@ -1,5 +1,4 @@
 name: "[Reusable/internal] Create Branch If Not Exists"
-
 on:
   workflow_call:
     inputs:
@@ -7,7 +6,6 @@ on:
         description: 'Branch name to create'
         required: true
         type: string
-
 jobs:
   create_branch:
     runs-on: ubuntu-latest
@@ -16,10 +14,8 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-
       - name: Fetch all remote branches
         run: git fetch --all
-
       - name: Check if branch exists
         id: check_branch
         run: |
@@ -28,7 +24,6 @@ jobs:
           else
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
-
       - name: Create branch if not exists
         if: steps.check_branch.outputs.exists == 'false'
         run: |

@@ -1,14 +1,12 @@
 name: '[Reusable] Merge guard for main'
 on:
   workflow_call:
-
 jobs:
   check_pr_title:
     if: (!contains(github.event.pull_request.title, '[release skip]')) && github.head_ref != 'develop' && github.head_ref != 'hotfix' && github.event.pull_request.merged == false
     runs-on: ubuntu-latest
     steps:
       - run: 'echo ${{ github.event.pull_request.title }}'
-
   close_pr:
     needs: [check_pr_title]
     uses: slime-hatena/reusable-workflows/.github/workflows/_internal_close_pr.yml@main

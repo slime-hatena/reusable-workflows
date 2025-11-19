@@ -6,7 +6,6 @@ on:
         required: false
         type: string
         default: "This PR has been closed automatically."
-
 jobs:
   close-pr:
     runs-on: ubuntu-latest
