@@ -15,6 +15,10 @@ on:
         required: false
         type: string
         default: ''
+      tag:
+        required: false
+        type: string
+        default: ''
 jobs:
   create_pr:
     runs-on: ubuntu-latest
@@ -29,3 +33,10 @@ jobs:
             --head "${{ inputs.head }}" \
             --title "${{ inputs.title }}" \
             --body "${{ inputs.body }}"
+      - name: Set tag
+        if: ${{ inputs.tag != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pr_number=$(gh pr list --head "${{ inputs.head }}" --base "${{ inputs.base }}" --state open --json number --jq '.[0].number')
+          gh pr edit "$pr_number" --add-label "${{ inputs.tag }}"
