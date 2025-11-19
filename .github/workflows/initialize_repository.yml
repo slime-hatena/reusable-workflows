@@ -26,7 +26,6 @@ jobs:
       branch: 'develop'
   create_empty_commit:
     needs: [create_develop_branch]
-    if: needs.create_develop_branch.result == 'true'
     uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_empty_commit.yml@main
     with:
       branch: 'develop'
@@ -36,9 +35,9 @@ jobs:
         To create a new pull request, some changes are needed, so a commit is created.
   calc-version:
     uses: ./.github/workflows/calc_version.yml
-    needs: [create_main_branch, create_empty_commit]
+    needs: [label_maintenance, create_main_branch, create_empty_commit]
   get-pr-list:
-    needs: [create_main_branch, create_empty_commit]
+    needs: [label_maintenance, create_main_branch, create_empty_commit]
     uses: ./.github/workflows/_internal_get_pr_list.yml
   create_pull_request:
     needs: [calc-version, get-pr-list]
