@@ -56,6 +56,8 @@ jobs:
             labels="$labels $pr_labels"
           done
           echo "labels=$labels" >> $GITHUB_OUTPUT
+      - run: |
+          echo "Collected PR labels: ${{ steps.get-labels.outputs.labels }}"
       - name: Decide bump type
         id: decide-bump
         run: |
