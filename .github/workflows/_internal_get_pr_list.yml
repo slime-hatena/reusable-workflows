@@ -2,7 +2,7 @@ name: '[Reusable/internal] Get PR List'
 on:
   workflow_call:
 jobs:
-  calc-version:
+  get-pr-list:
     runs-on: ubuntu-latest
     outputs:
       list: ${{ steps.get-pr-list.outputs.pr_list }}
