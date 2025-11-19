@@ -37,5 +37,6 @@ jobs:
           echo "pr_list<<EOF" >> $GITHUB_OUTPUT
           echo -e "$pr_list" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
-      - run: |
-          echo "PR List:\n${{ steps.get-pr-list.outputs.pr_list }}"
+      - name: Output PR list
+        run: |
+          echo "${{ steps.get-pr-list.outputs.pr_list }}"
