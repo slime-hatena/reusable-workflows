@@ -1,0 +1,17 @@
+changelog:
+  exclude:
+    authors:
+      - github-actions
+  categories:
+    - title: Hot Fixes
+      labels:
+        - "Type: Hotfix"
+    - title: New Features
+      labels:
+        - "Type: Feature"
+    - title: Bug Fixes
+      labels:
+        - "Type: Bug"
+    - title: Other Changes
+      labels:
+        - "*"

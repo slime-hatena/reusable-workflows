@@ -11,6 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
+    - name: If release.yml does not exist, download it
+      run: |
+        if [ ! -f "${GITHUB_WORKSPACE}/.github/release.yml" ]; then
+          curl -sSL https://raw.githubusercontent.com/slime-hatena/reusable-workflows/refs/heads/main/.github/release.yml -o "${GITHUB_WORKSPACE}/.github/release.yml"
+          echo "Downloaded release.yml."
+        else
+          echo "release.yml already exists."
+        fi
+    - name: Cat release.yml
+      run: cat "${GITHUB_WORKSPACE}/.github/release.yml"
     - name: Create Release
       run: |
         gh release create "${{ inputs.version }}" --target main --title "Version ${{ inputs.version }}" --generate-notes --latest

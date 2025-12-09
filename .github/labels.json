@@ -89,6 +89,11 @@
         "description": "New Feature",
         "aliases": ["enhancement"]
     },
+        {
+        "name": "Type: Hotfix",
+        "color": "ee0701",
+        "description": "Critical bug fix that needs to be released immediately"
+    },
     {
         "name": "Type: Refactoring",
         "color": "fbca04",
