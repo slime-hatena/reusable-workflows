@@ -1,0 +1,11 @@
+name: '[Reusable] Check release skip'
+on:
+  workflow_call:
+
+jobs:
+  skip:
+    runs-on: ubuntu-latest
+    if: (! contains(github.event.head_commit.message, '[release skip]')) && (! contains(github.event.head_commit.message, 'Initial commit'))
+    steps:
+      - run: echo "${{ github.event.head_commit.message }}"
+
