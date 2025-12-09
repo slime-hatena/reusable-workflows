@@ -26,7 +26,11 @@ jobs:
       - name: Get commit logs from latest tag to HEAD
         id: get-commits
         run: |
-          prs=$(git log ${{ steps.get-latest-tag.outputs.tag }}..HEAD --pretty=format:'%s' | grep -oE 'Merge pull request #[0-9]+' | grep -oE '[0-9]+')
+          if [ -z "${{ steps.get-latest-tag.outputs.tag }}" ]; then
+            prs=""
+          else
+            prs=$(git log ${{ steps.get-latest-tag.outputs.tag }}..HEAD --pretty=format:'%s' | grep -oE 'Merge pull request #[0-9]+' | grep -oE '[0-9]+')
+          fi
           prs_csv=$(echo "$prs" | paste -sd "," -)
           echo "prs=$prs_csv" >> $GITHUB_OUTPUT
       - name: Get PR info list
