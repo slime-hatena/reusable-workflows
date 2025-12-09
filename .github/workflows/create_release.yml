@@ -12,6 +12,6 @@ jobs:
     steps:
     - name: Create Release
       run: |
-        gh release create "${{ inputs.version }}" --title "Version ${{ inputs.version }}" --generate-notes
+        gh release create "${{ inputs.version }}" --target main --title "Version ${{ inputs.version }}" --generate-notes --latest
       env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
