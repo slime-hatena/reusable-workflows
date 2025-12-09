@@ -29,7 +29,7 @@ jobs:
           if [ -z "${{ steps.get-latest-tag.outputs.tag }}" ]; then
             prs=""
           else
-            prs=$(git log ${{ steps.get-latest-tag.outputs.tag }}..HEAD --pretty=format:'%s' | grep -oE 'Merge pull request #[0-9]+' | grep -oE '[0-9]+')
+            prs=$(git log ${{ steps.get-latest-tag.outputs.tag }}..HEAD --pretty=format:'%s' | grep -oE 'Merge pull request #[0-9]+' | grep -oE '[0-9]+') || true
           fi
           prs_csv=$(echo "$prs" | paste -sd "," -)
           echo "prs=$prs_csv" >> $GITHUB_OUTPUT
