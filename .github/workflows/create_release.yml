@@ -10,6 +10,7 @@ jobs:
   create-release:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v5
     - name: Create Release
       run: |
         gh release create "${{ inputs.version }}" --target main --title "Version ${{ inputs.version }}" --generate-notes --latest
