@@ -57,6 +57,7 @@ jobs:
 
         ${{ needs.get_pr_list.outputs.pr_list }}
   on_failure:
+    needs: [create_pull_request]
     if: ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
