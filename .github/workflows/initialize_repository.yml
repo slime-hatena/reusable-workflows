@@ -56,3 +56,15 @@ jobs:
         Version: \`${{ needs.calc_version.outputs.current_version }}\` → \`${{ needs.calc_version.outputs.version }}\`  
 
         ${{ needs.get_pr_list.outputs.pr_list }}
+  on_failure:
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Explain to the user what they need to do.
+        run: |
+          echo "You do not have sufficient permissions for GitHub Actions."
+          echo "- Repository top > Settings > Actions > General"
+          echo "- Workflow permissions"
+          echo '- Enable "Read and write permissions"'
+          echo '- Enable "Allow GitHub Actions to create and approve pull requests"'
+          echo "After changing the settings, please re-run this workflow."
