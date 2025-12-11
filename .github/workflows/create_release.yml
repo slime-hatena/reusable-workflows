@@ -7,7 +7,7 @@ on:
         required: true
 
 jobs:
-  create-release:
+  create_release:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
@@ -26,3 +26,45 @@ jobs:
         gh release create "${{ inputs.version }}" --target main --title "Version ${{ inputs.version }}" --generate-notes --latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  create_main_branch:
+    needs: [create_release]
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_branch.yml@main
+    with:
+      branch: 'main'
+  create_develop_branch:
+    needs: [create_release]
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_branch.yml@main
+    with:
+      branch: 'develop'
+  create_empty_commit_to_develop:
+    needs: [create_develop_branch]
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_empty_commit.yml@main
+    with:
+      branch: 'develop'
+      commit_message: |
+        Create Pull Request
+
+        To create a new pull request, some changes are needed, so a commit is created.
+  calc_version:
+    needs: [create_release, create_main_branch, create_empty_commit_to_develop]
+    uses: ./.github/workflows/calc_version.yml
+  get_pr_list:
+    needs: [create_release, create_main_branch, create_empty_commit_to_develop]
+    uses: ./.github/workflows/_internal_get_pr_list.yml
+  create_pull_request:
+    needs: [calc_version, get_pr_list]
+    uses: slime-hatena/reusable-workflows/.github/workflows/_internal_create_pr.yml@main
+    with:
+      base: 'main'
+      head: 'develop'
+      title: 'Next Release'
+      tag: 'Release'
+      body: |
+        This Pull Request is for a release. If you approve it, a release will be created.
+
+        **Please do not add any tags other than \`Release\`.**  
+        Adding other tags may result in an unintended release or incorrect version.
+
+        Version: \`${{ needs.calc_version.outputs.current_version }}\` → \`${{ needs.calc_version.outputs.version }}\`  
+
+        ${{ needs.get_pr_list.outputs.pr_list }}
