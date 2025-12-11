@@ -56,12 +56,12 @@ jobs:
         Version: \`${{ needs.calc_version.outputs.current_version }}\` → \`${{ needs.calc_version.outputs.version }}\`  
 
         ${{ needs.get_pr_list.outputs.pr_list }}
-  on_failure:
+  explain_the_reason_for_the_error:
     needs: [create_pull_request]
     if: ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
-      - name: Explain to the user what they need to do.
+      - name: Click here to see how to fix it.
         run: |
           echo "You do not have sufficient permissions for GitHub Actions."
           echo "- Repository top > Settings > Actions > General"
